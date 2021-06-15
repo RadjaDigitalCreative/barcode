@@ -1,0 +1,9 @@
+svg {
+    margin: 0px 5px 0px 5px;
+}
+
+@media print and (width: 21cm) and (height: 29.7cm) {
+    @page {
+        margin: 3cm;
+    }
+}
