@@ -74,6 +74,6 @@ class BarcodeProductController extends Controller
         $barcode_genererator = DB::table('barcode_products')
             ->where('id', $id)
             ->update(['barcode_number' => $barcode_number]);
-        return redirect()->route('barcode-generator.index')->with('success', 'Barcode Berhasil di Buat');;
+        return redirect()->route('barcode-generator.index')->with('success', 'Barcode Berhasil di Buat');
     }
 }

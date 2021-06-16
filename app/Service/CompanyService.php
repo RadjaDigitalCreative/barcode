@@ -1,4 +1,9 @@
 <?php
+/**
+ * Copyright (c) 2021.
+ * Dinokhan
+ * 6/15/21, 1:18 AM
+ */
 
 namespace App\Service;
 

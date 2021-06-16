@@ -24,3 +24,13 @@ Route::post('company/show', 'Api\Company@get');
 Route::post('company/store', 'Api\Company@store');
 Route::post('company/update', 'Api\Company@update');
 Route::post('company/delete', 'Api\Company@delete');
+//route user
+Route::post('user', 'Api\User@index');
+Route::post('user/show', 'Api\User@get');
+Route::post('user/store', 'Api\User@store');
+Route::post('user/update', 'Api\User@update');
+Route::post('user/delete', 'Api\User@delete');
+//route barcode
+Route::post('barcode', 'Api\Barcode@index');
+Route::post('barcode/show', 'Api\Barcode@get');
+Route::post('barcode/store', 'Api\Barcode@store');

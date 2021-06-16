@@ -2,31 +2,30 @@
 /**
  * Copyright (c) 2021.
  * Dinokhan
- * 6/15/21, 1:28 AM
+ * 6/16/21, 7:31 PM
  */
 
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Service\CategoryService;
+use App\Service\UserService;
 use Illuminate\Http\Request;
 
-class Category extends Controller
+class User extends Controller
 {
-    private $categoryService;
+    private $userService;
 
     public function __construct
     (
-        CategoryService $categoryService
+        UserService $userService
     )
     {
-        $this->categoryService = $categoryService;
+        $this->userService = $userService;
     }
-
     public function index(Request $request)
     {
         try {
-            $user = $this->categoryService->all($request);
+            $user = $this->userService->all($request);
             if ($user === null) {
                 return response()->json(['status' => 400, 'message' => 'not found']);
             } else {
@@ -39,11 +38,10 @@ class Category extends Controller
             return response()->json(['status' => 405, 'message' => 'error', 'error_code' => $e->getMessage()]);
         }
     }
-
     public function get(Request $request)
     {
         try {
-            $user = $this->categoryService->get($request);
+            $user = $this->userService->get($request);
             if ($user === null) {
                 return response()->json(['status' => 400, 'message' => 'not found']);
             } else {
@@ -60,7 +58,7 @@ class Category extends Controller
     public function store(Request $request)
     {
         try {
-            $user = $this->categoryService->store($request);
+            $user = $this->userService->store($request);
             if ($user === null) {
                 return response()->json(['status' => 400, 'message' => 'not found']);
             } else {
@@ -77,7 +75,7 @@ class Category extends Controller
     public function update(Request $request)
     {
         try {
-            $user = $this->categoryService->update($request);
+            $user = $this->userService->update($request);
             if ($user === null) {
                 return response()->json(['status' => 400, 'message' => 'not found']);
             } else {
@@ -94,7 +92,7 @@ class Category extends Controller
     public function delete(Request $request)
     {
         try {
-            $user = $this->categoryService->delete($request);
+            $user = $this->userService->delete($request);
             if ($user === null) {
                 return response()->json(['status' => 400, 'message' => 'not found']);
             } else {
