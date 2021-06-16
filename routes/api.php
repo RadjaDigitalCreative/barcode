@@ -34,3 +34,6 @@ Route::post('user/delete', 'Api\User@delete');
 Route::post('barcode', 'Api\Barcode@index');
 Route::post('barcode/show', 'Api\Barcode@get');
 Route::post('barcode/store', 'Api\Barcode@store');
+//route auth
+Route::post('login', 'Api\Login@login');
+Route::post('register', 'Api\Login@register');
