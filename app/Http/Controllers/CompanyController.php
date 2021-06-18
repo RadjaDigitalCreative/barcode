@@ -16,7 +16,7 @@ class CompanyController extends Controller
             try {
                 return DataTables::of($data)
                     ->addColumn('action', function ($data) {
-                        $button = '<a href="/company/edit/' . $data->id . '" class="btn btn-primary ">Edit</a>';
+                        $button = '<a href="' . route ('company.edit', $data->id) . '" class="btn btn-primary ">Edit</a>';
                         $button .= '<button onclick="confirmationDelte(' . $data->id . ')" type="button" id="' . $data->id . '" class="btn btn-danger">Hapus</button>';
 
                         return $button;

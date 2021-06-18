@@ -47,11 +47,11 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 let data = id
-                window.location.href = '/company/'+id+'/delete'
+                window.location.href = '{!! url('company/') !!}/'+id+'/delete';
             }
         })
     }
-    
+
     $(document).ready(function() {
         $('#tableCompany').DataTable({
             processing: true,
@@ -75,7 +75,7 @@
             ],
         });
     })
-    
+
 
 </script>
 @endsection
