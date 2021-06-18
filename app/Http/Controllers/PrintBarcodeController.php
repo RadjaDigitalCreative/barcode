@@ -14,6 +14,13 @@ class PrintBarcodeController extends Controller
             'bracode_data' => $get_barcode
         ]);
     }
+    public function index2($id)
+    {
+        $get_barcode = DB::table('barcode_products')->where('id', $id)->first();
+        return view('barcode_generator.print_qr.index', [
+            'qr_data' => $get_barcode
+        ]);
+    }
 
     public function print_setting (Request $request, $id)
     {

@@ -15,7 +15,7 @@
         <table class="table table-striped" id="tableCategory" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                    
+
                     <th>Category</th>
                     <th>Created</th>
                     <th>Action</th>
@@ -49,7 +49,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 let data = id
-                window.location.href = '/category/'+id+'/delete'
+                window.location.href = '{!! url('category/') !!}/'+id+'/delete';
             }
         })
     }
@@ -59,7 +59,7 @@
             serverside: true,
             ajax: "{{ route('category') }}",
             columns: [
-           
+
             {
                 data: 'category',
                 name: 'category'

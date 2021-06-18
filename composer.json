@@ -19,6 +19,7 @@
         "nesbot/carbon": "^2.46",
         "picqer/php-barcode-generator": "^2.2",
         "realrashid/sweet-alert": "^3.2",
+        "simplesoftwareio/simple-qrcode": "^4.2",
         "yajra/laravel-datatables": "1.5"
     },
     "require-dev": {

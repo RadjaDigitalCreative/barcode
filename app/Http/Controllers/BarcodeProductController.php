@@ -6,6 +6,7 @@ use App\BarcodeProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
+use QrCode;
 
 class BarcodeProductController extends Controller
 {
@@ -13,10 +14,14 @@ class BarcodeProductController extends Controller
     {
         if ($request->ajax()) {
             $data = DB::table('barcode_products')->join('product', 'product.id', 'barcode_products.item_id')
+                ->join('category', 'category.id', 'product.category_id')
+                ->join('brand', 'brand.id', 'product.brand_id')
                 ->where('product.role_id', auth()->user()->role_id)
                 ->select([
                     'barcode_products.*',
                     'product.product',
+                    'brand.brand',
+                    'category.category',
                 ])
                 ->get();
             try {
@@ -25,11 +30,19 @@ class BarcodeProductController extends Controller
                         if ($data->barcode_number) {
                             return view('barcode_generator.generator_action.barcode', ['data' => $data]);
                         } else {
-                            $button = '<a href="/barcode-generator/generate/' . $data->id . '" class="btn btn-primary">Buat Barcode</a>';
+                            $button = '<a href="' . route ('barcode.generator', $data->id) . '" class="btn btn-primary">Buat Barcode</a>';
                             return $button;
                         }
                     })
-                    ->rawColumns(['barcode'])
+                    ->addColumn('QR', function ($data) {
+                        if ($data->qr_code) {
+                            return view('barcode_generator.generator_action.qr', ['data' => $data]);
+                        } else {
+                            $button = '<a href="' . route ('qr.generator', $data->id) . '" class="btn btn-primary">Buat QR Code</a>';
+                            return $button;
+                        }
+                    })
+                    ->rawColumns(['barcode', 'QR'])
                     ->toJson();
             } catch (\Exception $e) {
 
@@ -38,42 +51,20 @@ class BarcodeProductController extends Controller
         return view('barcode_generator.index');
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show(BarcodeProduct $barcodeProduct)
-    {
-        //
-    }
-
-    public function edit(BarcodeProduct $barcodeProduct)
-    {
-        //
-    }
-
-    public function update(Request $request, BarcodeProduct $barcodeProduct)
-    {
-        //
-    }
-
-    public function destroy(BarcodeProduct $barcodeProduct)
-    {
-        //
-    }
-
     public function generate($id)
     {
         $barcode_number = rand(0, 999999999);
-        $barcode_genererator = DB::table('barcode_products')
+        DB::table('barcode_products')
             ->where('id', $id)
             ->update(['barcode_number' => $barcode_number]);
         return redirect()->route('barcode-generator.index')->with('success', 'Barcode Berhasil di Buat');
+    }
+    public function generate_qr($id)
+    {
+        $qr_code = bin2hex(random_bytes(20));
+        DB::table('barcode_products')
+            ->where('id', $id)
+            ->update(['qr_code' => $qr_code]);
+        return redirect()->route('barcode-generator.index')->with('success', 'QR Code Berhasil di Buat');
     }
 }

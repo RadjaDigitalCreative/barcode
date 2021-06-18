@@ -18,12 +18,14 @@ class ProductController extends Controller
         }
 
         $category = DB::table('category')->where('role_id', auth()->user()->role_id)->get();
+        $brand = DB::table('brand')->where('role_id', auth()->user()->role_id)->get();
         if ($request->ajax()) {
-            $data = DB::table('product')->join('category', 'category.id', 'product.category_id')
+            $data = DB::table('product')->join('category', 'category.id', 'product.category_id')->join('brand', 'brand.id', 'product.brand_id')
                 ->where('product.role_id', auth()->user()->role_id)
                 ->select([
                     'product.*',
                     'category.category',
+                    'brand.brand',
                 ])
                 ->get();
             return DataTables::of($data)
@@ -37,14 +39,14 @@ class ProductController extends Controller
                 })
                 ->addColumn('action', function ($data) {
 
-                    $button = '<a href="/product/edit/' . $data->id . '" class="btn btn-primary ">Edit</a>';
+                    $button = '<a href="' . route ('product.edit', $data->id) . '" class="btn btn-primary ">Edit</a>';
                     $button .= '<button onclick="confirmationDelte(' . $data->id . ')" type="button" id="' . $data->id . '" class="btn btn-danger">Hapus</button>';
                     return $button;
                 })
                 ->rawColumns(['action', 'price', 'image'])
                 ->make(true);
         }
-        return view('product.index', compact('category'));
+        return view('product.index', compact('category', 'brand'));
     }
 
     public function create(Request $request)
@@ -57,7 +59,8 @@ class ProductController extends Controller
                 'role_id' => auth()->user()->role_id,
                 'category_id' => $request->category_id,
                 'product' => $request->product,
-                'brand' => $request->brand,
+                'brand_id' => $request->brand_id,
+                'license' => $request->license,
                 'price' => $request->price,
                 'time_act' => $request->time_act,
                 'time_exp' => $request->time_exp,
@@ -77,9 +80,11 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $data = DB::table('product')->leftJoin('category', 'category.id', 'product.category_id')->where('product.id', $id)->select('product.*', 'category.category')->first();
+        $data = DB::table('product')->leftJoin('category', 'category.id', 'product.category_id')->leftJoin('brand', 'brand.id', 'product.brand_id')->where('product.id', $id)
+            ->select('product.*', 'category.category',  'brand.brand')->first();
         $category = DB::table('category')->get();
-        return view('product.edit', compact('data', 'category'));
+        $brand = DB::table('brand')->get();
+        return view('product.edit', compact('data', 'category', 'brand'));
     }
 
     public function update(Request $request, $id)

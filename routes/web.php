@@ -22,9 +22,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Barcode Generator
     Route::get('/barcode-generator/generate/{id}', 'BarcodeProductController@generate')->name('barcode.generator');
+    Route::get('/qr-generator/generate/{id}', 'BarcodeProductController@generate_qr')->name('qr.generator');
 
     // Print Barcode
     Route::get('/print-barcode/{id}', 'PrintBarcodeController@index')->name('print.barcode');
+    Route::get('/print-qr/{id}', 'PrintBarcodeController@index2')->name('print.qr');
     Route::post('/print-barcode/{id}', 'PrintBarcodeController@print_setting')->name('print.barcode.setting');
     Route::get('/print-barcode/print/{id}', 'PrintBarcodeController@print_data')->name('print.barcode.data');
 
@@ -72,4 +74,11 @@ Route::group(['middleware' => 'auth'], function () {
 //    profile
     Route::get('/myprofile', 'ProfileController@index')->name('myprofile');
     Route::post('/myprofile/update', 'ProfileController@update')->name('myprofile.update');
+    // brand
+    Route::get('/brand', 'BrandController@index')->name('brand');
+    Route::post('/brand/store', 'BrandController@store')->name('brand.store');
+    Route::get('/brand/edit/{id}', 'BrandController@edit')->name('brand.edit');
+    Route::post('/brand/update/{id}', 'BrandController@update')->name('brand.update');
+    Route::get('/brand/{id}/delete', 'BrandController@delete')->name('brand.delete');
+
 });

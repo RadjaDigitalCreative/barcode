@@ -50,7 +50,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 let data = id
-                window.location.href = '/product/'+id+'/delete'
+                window.location.href = '{!! url('product/') !!}/'+id+'/delete'
             }
         })
     }
