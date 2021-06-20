@@ -4,7 +4,7 @@
             <ul class="nav">
                 <li><a href="{{route('dashboard')}}" class="{{ Request::routeIs('dashboard') ? 'active' : '' }}"><i
                             class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
-                <li><a href="{{route('category')}}"><i class="fa fa-balance-scale"
+                <li><a href="{{route('notification')}}"><i class="fa fa-balance-scale"
                                                        aria-hidden="true"></i><span>Notification</span></a></li>
                 <li><a href="{{route('company')}}"><i class="fa fa-building-o"></i> <span>Company</span></a></li>
                 <li><a href="{{route('brand')}}"><i class="fa fa-handshake-o"

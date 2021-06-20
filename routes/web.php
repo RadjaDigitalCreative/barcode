@@ -13,6 +13,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // dashboard
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+    Route::get('/notification', 'UserController@notification')->name('notification');
 
     // user payment
     Route::get('/user-payment/transfer/{id}','UserPaymentController@transfer_proses')->name('user.payment.transnfer');
@@ -28,6 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/print-barcode/{id}', 'PrintBarcodeController@index')->name('print.barcode');
     Route::get('/print-qr/{id}', 'PrintBarcodeController@index2')->name('print.qr');
     Route::post('/print-barcode/{id}', 'PrintBarcodeController@print_setting')->name('print.barcode.setting');
+    Route::post('/print-qr/{id}', 'PrintBarcodeController@print_setting2')->name('print.qr.setting');
     Route::get('/print-barcode/print/{id}', 'PrintBarcodeController@print_data')->name('print.barcode.data');
 
     // Subcription Price
@@ -76,6 +78,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/myprofile/update', 'ProfileController@update')->name('myprofile.update');
     // brand
     Route::get('/brand', 'BrandController@index')->name('brand');
+    Route::get('/brand/barcode_generator/{id}', 'BrandController@barcode_generator')->name('brand.barcode_generator');
     Route::post('/brand/store', 'BrandController@store')->name('brand.store');
     Route::get('/brand/edit/{id}', 'BrandController@edit')->name('brand.edit');
     Route::post('/brand/update/{id}', 'BrandController@update')->name('brand.update');

@@ -35,7 +35,7 @@
             $('#tableProduct').DataTable({
                 processing: true,
                 serverside: true,
-                ajax: "{{ route('barcode-generator.index') }}",
+                ajax: "{{ url('/brand/barcode_generator') }}/'+id+'",
                 columns: [
                     {
                         data: 'product',

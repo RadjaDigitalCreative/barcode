@@ -20,9 +20,12 @@ class UserController extends Controller
             'company' => $get_company
         ]);
     }
-    public function create()
+    public function notification()
     {
-        //
+        $terbayar = DB::table('users')->get();
+        $konfirmasi = DB::table('users')->get();
+        $belum_bayar = DB::table('users')->get();
+        return view('user.notification', compact('terbayar', 'konfirmasi', 'belum_bayar'));
     }
 
     public function store(Request $request)
@@ -54,13 +57,13 @@ class UserController extends Controller
         return redirect()->route('user-payment.index')->with('success','Berhasil Menambah Pengguna Baru');
     }
 
-   
+
     public function show($id)
     {
         //
     }
 
-    
+
     public function edit($id)
     {
         //
@@ -71,7 +74,7 @@ class UserController extends Controller
         //
     }
 
-    
+
     public function destroy($id)
     {
         //
