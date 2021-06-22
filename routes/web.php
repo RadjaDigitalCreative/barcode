@@ -10,6 +10,17 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
+    // RS Subcription Price
+    Route::resource('subcription-price', 'SubscriptionPriceController');
+
+    // Rs Barcode Generator
+    Route::resource('barcode-generator', 'BarcodeProductController');
+
+    // RS User Payment
+    Route::resource('user-payment', 'UserPaymentController');
+
+    // RS User
+    Route::resource('user', 'UserController');
 
     // dashboard
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
@@ -31,6 +42,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/print-barcode/{id}', 'PrintBarcodeController@print_setting')->name('print.barcode.setting');
     Route::post('/print-qr/{id}', 'PrintBarcodeController@print_setting2')->name('print.qr.setting');
     Route::get('/print-barcode/print/{id}', 'PrintBarcodeController@print_data')->name('print.barcode.data');
+    Route::get('/print-barcode/print/pdf/{id}', 'PrintBarcodeController@print_data_barcode')->name('print.barcode.pdf');
+    Route::get('/print-qr/print/{id}', 'PrintBarcodeController@print_data_qr')->name('print.qr.data');
 
     // Subcription Price
     Route::get('/subcription-price/{id}/delete', 'SubscriptionPriceController@delete')->name('subcription.price.delete');
@@ -38,20 +51,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', function () {
         return redirect(route('dashboard'));
     });
-
-
-    // RS Subcription Price
-    Route::resource('subcription-price', 'SubscriptionPriceController');
-
-    // Rs Barcode Generator
-    Route::resource('barcode-generator', 'BarcodeProductController');
-
-    // RS User Payment
-    Route::resource('user-payment', 'UserPaymentController');
-
-    // RS User
-    Route::resource('user', 'UserController');
-
      // product
     Route::get('/product', 'ProductController@index')->name('product');
     Route::post('/product/create', 'ProductController@create')->name('product.create');
@@ -83,5 +82,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/brand/edit/{id}', 'BrandController@edit')->name('brand.edit');
     Route::post('/brand/update/{id}', 'BrandController@update')->name('brand.update');
     Route::get('/brand/{id}/delete', 'BrandController@delete')->name('brand.delete');
+
 
 });

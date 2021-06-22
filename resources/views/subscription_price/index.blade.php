@@ -12,14 +12,14 @@
         <table id="payment_list" class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>Bulan</th>
+                    <th>Max Created</th>
                     <th>Harga</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <th>Bulan</th>
+                    <th>Max Created</th>
                     <th>Harga</th>
                     <th>Action</th>
                 </tr>
@@ -36,9 +36,9 @@
         <form action="{{ route('subcription-price.store') }}" method="post">
             @csrf
             <div class="form-group">
-                <label for="jumlah_bulan">Jumlah Bulan</label>
+                <label for="jumlah_bulan">Jumlah Created Barcode & QR</label>
                 <input type="number" name="jumlah_bulan" value="{{ old('jumlah_bulan') }}" class="form-control"
-                id="bulan" placeholder="Bulan">
+                id="bulan" placeholder="max_created">
                 @if ($errors->has('jumlah_bulan'))
                 <span class="help-block">{{ $errors->first('jumlah_bulan') }}</span>
                 @endif
@@ -89,7 +89,7 @@
                 name: 'month',
                 render: function(data, type) {
                     if (type === 'display') {
-                        return data + ' Bulan'
+                        return data + ' Kali'
                     } else {
                         return data
                     }

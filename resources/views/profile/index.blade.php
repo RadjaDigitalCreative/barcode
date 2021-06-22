@@ -49,6 +49,16 @@
                                id="password" placeholder="Password">
                     </div>
                     <div class="form-group">
+                        <label for="jumlah_bulan">Lokasi Perusahaan</label>
+                        <input type="text" name="lokasi" class="form-control"
+                               id="lokasi" placeholder="Lokasi">
+                    </div>
+                    <div class="form-group">
+                        <label for="phonenumber">Phone Number</label>
+                        <input type="number" value="{{auth()->user()->phone_number}}" name="phone_number" class="form-control"
+                               id="phone_number" placeholder="Phone_number">
+                    </div>
+                    <div class="form-group">
                         <label for="image">Your Photo</label>
                         <input type="file" value="" name="image" class="form-control"
                                id="file" placeholder="Your Image">

@@ -22,9 +22,24 @@ class UserController extends Controller
     }
     public function notification()
     {
-        $terbayar = DB::table('users')->get();
-        $konfirmasi = DB::table('users')->get();
-        $belum_bayar = DB::table('users')->get();
+        $terbayar = DB::table('users')
+            ->join('payments', 'users.id', 'payments.user_id')
+            ->join('user_roles', 'users.id', '=', 'user_roles.user_id')
+            ->join('roles', 'user_roles.role_id', '=', 'roles.id')
+            ->join('profils', 'users.id', '=', 'profils.user_id')
+            ->where('payments.status_payment', 'Sudah Terlunasi')->get();
+        $konfirmasi = DB::table('users')
+            ->join('payments', 'users.id', 'payments.user_id')
+            ->join('user_roles', 'users.id', '=', 'user_roles.user_id')
+            ->join('roles', 'user_roles.role_id', '=', 'roles.id')
+            ->join('profils', 'users.id', '=', 'profils.user_id')
+            ->where('payments.status_payment', 'Menunggu Konfirmasi')->get();
+        $belum_bayar = DB::table('users')
+            ->join('payments', 'users.id', 'payments.user_id')
+            ->join('user_roles', 'users.id', '=', 'user_roles.user_id')
+            ->join('roles', 'user_roles.role_id', '=', 'roles.id')
+            ->join('profils', 'users.id', '=', 'profils.user_id')
+            ->where('payments.status_payment', 'Belum Bayar')->get();
         return view('user.notification', compact('terbayar', 'konfirmasi', 'belum_bayar'));
     }
 

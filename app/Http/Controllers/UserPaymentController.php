@@ -35,12 +35,15 @@ class UserPaymentController extends Controller
             $current_date = Carbon::now();
             return DataTables::of($data)
                 ->addColumn('masa_pemakaian', function ($data) use ($current_date) {
-                    if (!empty($data->payment_date)) {
+                    if (!empty($data->status_payment)) {
                         if ($data->lease_limit == $current_date || $data->lease_limit <= $current_date) {
                             $masa_pemakaian = '<p>Telah Berakhir</>';
                             return $masa_pemakaian;
-                        } else {
-                            $masa_pemakaian = '<button type="button" class="btn btn-warning"> ' . $data->date . ' Hari Sampai ' . $data->lease_limit . ' </button>';
+                        } elseif($data->status_payment == 'Menunggu Konfirmasi'){
+                            $masa_pemakaian = '<button type="button" class="btn btn-warning"> Menunggu Konfirmasi </button>';
+                            return $masa_pemakaian;
+                        } else{
+                            $masa_pemakaian = '<button type="button" class="btn btn-success"> ' . $data->max_created . ' Creted Barcode & QR  </button>';
                             return $masa_pemakaian;
                         }
                     } else {
@@ -50,13 +53,13 @@ class UserPaymentController extends Controller
                 })
                 ->addColumn('status', function ($data) {
                     if (!empty($data->payment_date)) {
-                        if ($data->date != 0) {
+                        if ($data->status_payment == 'Menunggu Konfirmasi') {
+                            $button = '<a href="#" class="btn btn-warning">Menunggu Konfirmasi</a>';
+                            return $button;
+                        } elseif($data->status_payment == 'Sudah Terlunasi'){
                             $button = '<a href="https://api.whatsapp.com/send/?phone=' . $data->phone_number . '&text&app_absent=0" target="_blank" class="btn btn-warning btn-block">Phone</a>';
                             $button .= '<a href="/user-payment/' . $data->user_id . '/edit" class="btn btn-primary btn-block">Edit</a>';
                             $button .= '<a href="/user-payment/delete/' . $data->user_id . '" id="' . $data->user_id . '" class="btn btn-danger btn-block">Delete</a>';
-                            return $button;
-                        } else {
-                            $button = '<a href="/user-payment/transfer/' . $data->user_id . '" id="' . $data->user_id . '" class="btn btn-danger">Bayar Sekarang</a>';
                             return $button;
                         }
                     } else {
@@ -211,9 +214,12 @@ class UserPaymentController extends Controller
                 'payment_date' => $payment_date,
                 'total_payment' => $subscription_prices->price,
                 'lease_limit' => $lease_limit,
+                'max_created' => $subscription_prices->month,
                 'user_id' => $id,
-                'status_payment' => 'terlunasi',
-                'proof' => $file_name
+                'status_payment' => 'Menunggu Konfirmasi',
+                'proof' => $file_name,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
         } else {
             DB::table('payments')
@@ -222,9 +228,12 @@ class UserPaymentController extends Controller
                     'payment_date' => $payment_date,
                     'total_payment' => $subscription_prices->price,
                     'lease_limit' => $lease_limit,
+                    'max_created' => $subscription_prices->month,
                     'user_id' => $id,
-                    'status_payment' => 'terlunasi',
-                    'proof' => $file_name
+                    'status_payment' => 'Menunggu Konfirmasi',
+                    'proof' => $file_name,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ]);
         }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class PrintBarcodeController extends Controller
 {
@@ -13,6 +14,14 @@ class PrintBarcodeController extends Controller
             ->join('product', 'product.id', 'barcode_products.item_id')
             ->join('category', 'category.id', 'product.category_id')
             ->join('brand', 'brand.id', 'product.brand_id')
+            ->select([
+                'barcode_products.*',
+                'product.product',
+                'product.license',
+                'product.time_exp',
+                'product.time_act',
+                'brand.brand',
+            ])
             ->where('barcode_products.id', $id)->first();
 
         return view('barcode_generator.print_barcode.index', [
@@ -52,7 +61,68 @@ class PrintBarcodeController extends Controller
     }
     public function print_data($id)
     {
-        $get_barcode = DB::table('barcode_products')->where('id', $id)->first();
-        return view('barcode_generator.print_barcode.print.index', ['data' => $get_barcode]);
+        $get_barcode = DB::table('barcode_products')
+            ->join('product', 'product.id', 'barcode_products.item_id')
+            ->join('category', 'category.id', 'product.category_id')
+            ->join('brand', 'brand.id', 'product.brand_id')
+            ->select([
+                'barcode_products.*',
+                'product.product',
+                'product.license',
+                'product.time_exp',
+                'product.time_act',
+                'brand.brand',
+            ])->where('barcode_products.id', $id)->first();
+        return view('barcode_generator.print_barcode.print.index', ['bracode_data' => $get_barcode]);
+    }
+    public function print_data_qr($id)
+    {
+        $get_barcode = DB::table('barcode_products')
+            ->join('product', 'product.id', 'barcode_products.item_id')
+            ->join('category', 'category.id', 'product.category_id')
+            ->join('brand', 'brand.id', 'product.brand_id')
+            ->select([
+                'barcode_products.*',
+                'product.product',
+                'product.license',
+                'product.time_exp',
+                'product.time_act',
+                'brand.brand',
+            ])->where('barcode_products.id', $id)->first();
+        return view('barcode_generator.print_qr.print.index', ['qr_data' => $get_barcode]);
+    }
+    public function print_pdf_barcode($id)
+    {
+        $get_barcode = DB::table('barcode_products')
+            ->join('product', 'product.id', 'barcode_products.item_id')
+            ->join('category', 'category.id', 'product.category_id')
+            ->join('brand', 'brand.id', 'product.brand_id')
+            ->select([
+                'barcode_products.*',
+                'product.product',
+                'product.license',
+                'product.time_exp',
+                'product.time_act',
+                'brand.brand',
+            ])->where('barcode_products.id', $id)->first();
+        return view('barcode_generator.print_barcode.print.index', ['bracode_data' => $get_barcode]);
+    }
+    public function print_data_barcode($id)
+    {
+        $get_barcode = DB::table('barcode_products')
+            ->join('product', 'product.id', 'barcode_products.item_id')
+            ->join('category', 'category.id', 'product.category_id')
+            ->join('brand', 'brand.id', 'product.brand_id')
+            ->select([
+                'barcode_products.*',
+                'product.product',
+                'product.license',
+                'product.time_exp',
+                'product.time_act',
+                'brand.brand',
+            ])->where('barcode_products.id', $id)->first();
+
+        $pdf = PDF::loadview('barcode_generator.print_barcode.pdf.index',['bracode_data' => $get_barcode]);
+        return $pdf->download('barcode.pdf');
     }
 }

@@ -41,8 +41,13 @@ class ProfileController extends Controller
             if(empty($request->file('image'))){
                 DB::table('users')->where('id', auth()->user()->id)->update([
                     'name' => $request->name,
+                    'phone_number' => $request->phone_number,
                     'password' => Hash::make($request->password),
                     'email' => $request->email
+                ]);
+                DB::table('profils')->where('user_id', auth()->user()->id)->update([
+                    'lokasi' => $request->lokasi,
+
                 ]);
                 return redirect('dashboard')->with('success', 'Data berhasil diupdate');
 
@@ -55,13 +60,18 @@ class ProfileController extends Controller
                     'name' => $request->name,
                     'password' => Hash::make($request->password),
                     'email' => $request->email,
+                    'phone_number' => $request->phone_number,
                     'image' => $file_name
+                ]);
+                DB::table('profils')->where('user_id', auth()->user()->id)->update([
+                    'lokasi' => $request->lokasi,
+
                 ]);
                 return redirect('dashboard')->with('success', 'Data berhasil diupdate');
 
             }
         } catch (\Exception $error) {
-            return response()->json('data Error');
+            return response()->json($error->getMessage());
         }
     }
     public function destroy($id)

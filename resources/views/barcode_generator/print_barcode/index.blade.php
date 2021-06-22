@@ -63,10 +63,14 @@
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
                     <div class="panel" style="wwidth: 21cm; min-height: 29.7cm;">
-                        <div class="panel-header">
+                        <div class="panel-header text-center">
                             <div style="padding: 5px">
-                                <a href="{{ route('print.barcode.data', $qr_data->id) }}" class="btn btn-primary btn-block"
-                                   target="_blank">print</a>
+                                <a href=" {{ route('print.qr.data', $qr_data->id) }}"
+                                   class="btn btn-primary "
+                                   target="_blank">Print Out</a>
+                                <a href=" #"
+                                   class="btn btn-success "
+                                   target="_blank">Save to Pdf</a>
                             </div>
                         </div>
                         <div class="panel-body" id="printBarcode">
@@ -142,18 +146,21 @@
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
                     <div class="panel" style="wwidth: 21cm; min-height: 29.7cm;">
-                        <div class="panel-header">
-                            <div style="padding: 5px;>
-                                <a href="{{ route('print.barcode.data', $bracode_data->id) }}"
-                                   class="btn btn-primary btn-block"
-                                   target="_blank">print</a>
+                        <div class="panel-header text-center">
+                            <div style="padding: 5px;">
+                                <a href=" {{ route('print.barcode.data', $bracode_data->id) }}"
+                                   class="btn btn-primary "
+                                   target="_blank">Print Out</a>
+                                <a href=" {{ route('print.barcode.pdf', $bracode_data->id) }} "
+                                   class="btn btn-success "
+                                   target="_blank">Save to Pdf</a>
                             </div>
                         </div>
                         <div class="panel-body" id="printBarcode">
                             @if ($bracode_data->amount)
                                 @for ($i = 0; $i < $bracode_data->amount; $i++)
                                     <div style="border-style: solid; text-align: center" class="col-md-3" id="barcode">
-                                        {!! DNS1D::getBarcodeSVG($bracode_data->barcode_number, 'C39', 1, $bracode_data->barcode_wide) !!}
+                                        {!! DNS1D::getBarcodeSVG($bracode_data->barcode_number, 'C39', 1, $bracode_data->barcode_height) !!}
                                         <p><b>Item : </b> {{$bracode_data->product}}</p>
                                         <p><b>Owner Product : </b> {{$bracode_data->brand}}</p>
                                         <p><b>Produced By : </b> {{auth()->user()->name}}</p>
